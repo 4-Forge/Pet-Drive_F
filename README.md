@@ -4,14 +4,19 @@
   O <strong>PetDrive</strong> é uma plataforma dedicada à gestão de viagens e transporte pet, oferecendo uma interface intuitiva para usuários organizarem corridas e acompanharem suas viagens com eficiência.
 </p>
 
+## 👨‍💻 Desenvolvido por:
+
 <p align="center">
-  Este projeto foi desenvolvido por:
-  <img src="https://img" alt="Forge 4">
+  <img 
+    src="./src/assets/grupo.png" 
+    alt="Equipe PetDrive" 
+    style="width: 100%; max-width: 600px; border-radius: 10px; border: 1px solid #e2e8f0;"
+  />
 </p>
 
 <p align="center">
   <a href="URL_DO_SEU_SITE_DEPLOYADO" target="_blank">
-    <img src="https://img.shields.io/badge/🚗🚀%20Visualizar%20Projeto-D63384?style=for-the-badge&logo=react&logoColor=white" alt="Visualizar Projeto">
+    <img src="https://img.shields.io/badge/🚗%20Visualizar%20Projeto-D63384?style=for-the-badge&logo=react&logoColor=white" alt="Visualizar Projeto">
   </a>
 </p>
 
