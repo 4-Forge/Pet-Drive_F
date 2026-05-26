@@ -132,7 +132,7 @@ export const Dashboard: React.FC = () => {
   const confirmarDeletarViagem = async (id: number) => {
     try {
       await api.delete(`/viagens/${id}`);
-      toast.success('Viagem removida com sucesso.');
+      toast.success('Viagem cancelada com sucesso.');
       carregarDados();
     } catch { toast.error('Erro ao remover viagem.'); }
   };
