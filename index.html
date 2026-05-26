@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/mdi:paw.svg?color=%23D63384" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PetDrive</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              pet: {
+                rosa: '#D63384',
+                verde: '#7DBE42',
+                bege: '#FCE3B5',
+                laranja: '#F39237',
+                azul: '#00A896',
+              }
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+      body {
+        margin: 0;
+        background: linear-gradient(135deg, #fbf7f0 0%, #e6f6f4 100%);
+        min-height: 100vh;
+        font-family: 'Inter', sans-serif;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(0, 168, 150, 0.15);
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800 antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

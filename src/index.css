@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  /* Degradê suave usando o azul e o bege claro da paleta do PetDrive */
+  background: linear-gradient(135deg, #fbf7f0 0%, #e6f6f4 100%);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+}
+
+/* Efeito Glassmorphism com borda baseada na paleta */
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 168, 150, 0.15);
+}
