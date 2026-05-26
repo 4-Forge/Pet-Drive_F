@@ -56,10 +56,10 @@ export const Dashboard: React.FC = () => {
     try {
       if (catEditId) {
         await api.put('/categorias', { id: catEditId, descricao: novaDescricaoCat });
-        toast.success('Categoria (Tema) atualizada!');
+        toast.success('Categoria atualizada!');
       } else {
         await api.post('/categorias', { descricao: novaDescricaoCat });
-        toast.success('Categoria (Tema) cadastrada!');
+        toast.success('Categoria cadastrada!');
       }
       setNovaDescricaoCat('');
       setCatEditId(null);
@@ -255,7 +255,7 @@ export const Dashboard: React.FC = () => {
               <input type="number" placeholder="Velocidade Média (Km/h)" value={velocidadeMediaKmh} onChange={e => setVelocidadeMediaKmh(e.target.value)} className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:ring-2 focus:ring-[#D63384] outline-none" required />
               <input type="number" placeholder="Valor Cobrado (R$)" value={valor} onChange={e => setValor(e.target.value)} className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:ring-2 focus:ring-[#D63384] outline-none" required />
               <select value={categoriaId} onChange={e => setCategoriaId(e.target.value)} className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm col-span-1 sm:col-span-2 focus:ring-2 focus:ring-[#D63384] outline-none">
-                <option value="">Vincular a uma Categoria (Tema)</option>
+                <option value="">Vincular a uma Categoria</option>
                 {categorias.map(c => <option key={c.id} value={c.id}>{c.descricao}</option>)}
               </select>
               <button type="submit" className="w-full py-3 bg-[#D63384] text-white font-bold text-sm rounded-xl shadow-xs col-span-1 sm:col-span-2 hover:bg-[#4A90E2] transition-all duration-300 ease-in-out">
