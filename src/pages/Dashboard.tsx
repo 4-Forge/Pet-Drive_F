@@ -100,10 +100,10 @@ export const Dashboard: React.FC = () => {
     try {
       if (viagemEditId) {
         await api.put(`/viagens/${viagemEditId}`, body);
-        toast.success('Viagem (Produto) updated!');
+        toast.success('Viagem atualizada!');
       } else {
         await api.post('/viagens', body);
-        toast.success('Viagem de Carona disponibilizada!');
+        toast.success('Viagem aceita!');
       }
       setOrigem(''); 
       setDestino(''); 
