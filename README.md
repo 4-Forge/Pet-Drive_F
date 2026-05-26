@@ -1,73 +1,49 @@
-# React + TypeScript + Vite
+<h1 align="center">🚗 PetDrive — Gestão de Caronas e Logística Pet</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  O <strong>PetDrive</strong> é uma plataforma dedicada à gestão de viagens e transporte pet, oferecendo uma interface intuitiva para usuários organizarem corridas e acompanharem suas viagens com eficiência.
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+  Este projeto foi desenvolvido por:
+  <img src="https://img" alt="Forge 4">
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<p align="center">
+  <a href="URL_DO_SEU_SITE_DEPLOYADO" target="_blank">
+    <img src="https://img.shields.io/badge/🚗🚀%20Visualizar%20Projeto-D63384?style=for-the-badge&logo=react&logoColor=white" alt="Visualizar Projeto">
+  </a>
+</p>
 
-## React Compiler
+## 🎯 Objetivo
+Criar uma interface ágil e amigável para motoristas e tutores, focada na organização de logística de transporte pet, integrando cálculos dinâmicos de viagem e gerenciamento de categorias.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Sobre o Projeto
+Uma Single Page Application (SPA) moderna, otimizada para performance e facilidade de uso.
 
-## Expanding the ESLint configuration
+- 📱 Design Responsivo e intuitivo
+- ⚡ Cálculo de tempo de viagem dinâmico
+- 📋 Gerenciamento de Categorias e Viagens
+- 🎨 Identidade visual exclusiva com paleta PetDrive
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tecnologias Utilizadas
+<p align="left">
+  <img src="https://skillicons.dev/icons?i=react,ts,vite,tailwind,axios" height="40px" />
+</p>
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React + Vite:** Alta performance e desenvolvimento rápido
+- **TypeScript:** Tipagem segura para toda a aplicação
+- **Tailwind CSS:** Estilização modular e consistente
+- **Axios:** Consumo eficiente da API REST
+- **Lucide React:** Biblioteca de ícones moderna
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ⚙️ Funcionalidades
+- **Dashboard Interativo:** Gerenciamento centralizado de corridas
+- **Cálculo de Viagem:** Estimativa automática de tempo baseada em distância/velocidade
+- **CRUD Completo:** Criação, edição e exclusão de viagens e categorias
+- **Feedback em Tempo Real:** Notificações (Toast) de sucesso e erro
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 💡 Diferenciais Técnicos
+- **Arquitetura Baseada em Contexto:** Gerenciamento de estado de autenticação
+- **Tratamento de Erros:** Interceptação inteligente de erros da API
+- **UX/UI Aprimorado:** Feedback visual com modais customizados e estados de carregamento
