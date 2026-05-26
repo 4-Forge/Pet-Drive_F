@@ -33,7 +33,7 @@ export const Profile: React.FC = () => {
                 {usuario?.nome || 'Usuário PetDrive'}
               </h1>
               <p className="flex items-center justify-center sm:justify-start gap-1 text-xs font-bold text-pet-azul bg-blue-50 px-3 py-1 rounded-full w-fit mx-auto sm:mx-0 border border-blue-100">
-                <ShieldCheck className="w-3.5 h-3.5" /> Token Ativo • Motorista Verificado
+                <ShieldCheck className="w-3.5 h-3.5" /> Token Ativo • Usuário Verificado
               </p>
             </div>
           </div>
