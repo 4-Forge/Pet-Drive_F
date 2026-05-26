@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <a href="URL_DO_SEU_SITE_DEPLOYADO" target="_blank">
+  <a href="https://pet-drive-f.vercel.app/" target="_blank">
     <img src="https://img.shields.io/badge/🚗%20Visualizar%20Projeto-D63384?style=for-the-badge&logo=react&logoColor=white" alt="Visualizar Projeto">
   </a>
 </p>
