@@ -6,7 +6,7 @@ import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
 import { AuthPage } from './pages/AuthPage';
 import { Dashboard } from './pages/Dashboard';
-import { Profile } from './pages/Profile'; // 1. IMPORTAÇÃO DA NOVA PÁGINA
+import { Profile } from './pages/Profile'; 
 import { ToastContainer } from 'react-toastify';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';

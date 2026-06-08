@@ -1,26 +1,41 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { User, Mail, Dog, ShieldCheck, MapPin } from 'lucide-react';
+import { User, Mail, ShieldCheck, MapPin } from 'lucide-react';
 
 export const Profile: React.FC = () => {
-  const contexto = useAuth() as any;
-  const usuario = contexto.usuario;
+  const { usuario, atualizarUsuario } = useAuth() as any;
+
+  const [nomePet, setNomePet] = React.useState(usuario?.nomePet || '');
+const [raca, setRaca] = React.useState(usuario?.raca || '');
+const [porte, setPorte] = React.useState(usuario?.porte || '');
+
+const salvarPet = () => {
+  const usuarioAtualizado = {
+    ...usuario,
+    nomePet,
+    raca,
+    porte,
+  };
+
+  atualizarUsuario(usuarioAtualizado);
+
+};
 
   return (
     <div className="flex-1 p-6 bg-gradient-to-br from-[#fce3b5] to-white min-h-[calc(100vh-140px)] flex items-center justify-center">
       <div className="w-full max-w-4xl space-y-8 py-8">
-        
+
         {/* CABEÇALHO DE PERFIL */}
         <section className="p-8 rounded-[2.5rem] shadow-xl bg-white/70 backdrop-blur-md border border-slate-200/40 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#D63384]/10 rounded-full -mr-16 -mt-16 blur-2xl pointer-events-none" />
-          
+
           <div className="flex flex-col sm:flex-row items-center gap-8 relative z-10 text-center sm:text-left">
             {/* AVATAR COM LÓGICA OPCIONAL */}
             <div className="w-32 h-32 rounded-full bg-slate-100 border-4 border-white shadow-md flex items-center justify-center overflow-hidden shrink-0">
               {usuario?.foto ? (
-                <img 
-                  src={usuario.foto} 
-                  alt="Perfil" 
+                <img
+                  src={usuario.foto}
+                  alt="Perfil"
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -45,7 +60,7 @@ export const Profile: React.FC = () => {
             <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 pb-3">
               <User className="text-pet-rosa w-4 h-4" /> Informações do Tutor
             </h3>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">E-mail Cadastrado</label>
@@ -63,29 +78,72 @@ export const Profile: React.FC = () => {
           </div>
 
           {/* DADOS DO PET */}
-          <div className="p-6 rounded-3xl bg-white/80 shadow-xs border border-slate-200/40 space-y-6">
-            <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 pb-3">
-              <Dog className="text-pet-verde w-4 h-4" /> Dados do Pet
-            </h3>
-            
+                   {!usuario?.nomePet ? (
+            <div className="space-y-3">
+
+              <p className="font-bold text-slate-700">
+                Complete o cadastro do seu pet
+              </p>
+
+              <input
+                type="text"
+                placeholder="Nome do Pet"
+                value={nomePet}
+                onChange={(e) => setNomePet(e.target.value)}
+                className="w-full p-2 border rounded-xl"
+              />
+
+              <input
+                type="text"
+                placeholder="Raça"
+                value={raca}
+                onChange={(e) => setRaca(e.target.value)}
+                className="w-full p-2 border rounded-xl"
+              />
+
+              <select
+                value={porte}
+                onChange={(e) => setPorte(e.target.value)}
+                className="w-full p-2 border rounded-xl"
+              >
+                <option value="">Selecione o porte</option>
+                <option value="PEQUENO">Pequeno</option>
+                <option value="MEDIO">Médio</option>
+                <option value="GRANDE">Grande</option>
+              </select>
+
+              <button
+                onClick={salvarPet}
+                className="bg-pet-verde text-white px-4 py-2 rounded-xl font-bold"
+              >
+                Salvar Pet
+              </button>
+
+            </div>
+          ) : (
             <div className="p-4 bg-gradient-to-r from-green-50/60 to-cyan-50/60 rounded-2xl border border-slate-200/40">
+
               <div className="flex items-center gap-4">
+
                 <div className="text-3xl bg-white w-12 h-12 rounded-xl shadow-xs flex items-center justify-center border border-slate-100">
                   🐕
                 </div>
-                <div>
-                  <p className="font-extrabold text-slate-800 text-lg">Thor</p>
-                  <p className="text-xs text-slate-500 font-semibold">Golden Retriever • 3 anos</p>
-                </div>
-              </div>
-              <div className="mt-4 flex gap-2 text-[10px] font-bold uppercase tracking-wider">
-                <span className="bg-white px-2.5 py-1 rounded-md text-pet-verde border border-slate-100 shadow-xs">Vacinado</span>
-                <span className="bg-white px-2.5 py-1 rounded-md text-pet-verde border border-slate-100 shadow-xs">Dócil</span>
-              </div>
-            </div>
-          </div>
-        </div>
 
+                <div>
+                  <p className="font-extrabold text-slate-800 text-lg">
+                    {usuario.nomePet}
+                  </p>
+
+                  <p className="text-xs text-slate-500 font-semibold">
+                    {usuario.raca} • {usuario.porte}
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
