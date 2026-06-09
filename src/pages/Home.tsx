@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import homeImage from '../assets/home.png';
 import { useAuth } from '../contexts/AuthContext';
 import { LayoutDashboard, Car, Shield, Leaf } from 'lucide-react';
 
@@ -11,8 +12,8 @@ export const Home: React.FC = () => {
   const { estaLogado } = useAuth();
 
   return (
-    <div className="min-h-screen bg-[#fce3b5] font-sans overflow-x-hidden">
-      
+    <div className="min-h-screen bg-[#F8F6F2] font-sans overflow-x-hidden">
+
       {/* CSS CUSTOMIZADO PARA AS ANIMAÇÕES E CENÁRIO EM MOVIMENTO */}
       <style>{`
         @keyframes moverCenario {
@@ -39,137 +40,154 @@ export const Home: React.FC = () => {
       `}</style>
 
       {/* HERO SECTION */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-        <div className="absolute top-0 right-0 -z-10 w-[500px] h-[500px] bg-gradient-to-tr from-[#D63384]/20 via-[#00A896]/10 to-transparent rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 left-[-10%] -z-10 w-[600px] h-[300px] bg-[#7DBE42]/10 rounded-full blur-2xl transform -rotate-12 pointer-events-none" />
+      <section className="relative overflow-hidden bg-[#F5F3EF] py-20 lg:py-32">
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Conteúdo Esquerdo */}
-          <div className="space-y-8 relative z-10">
-            <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-              <span className="text-[#D63384]">Pet</span>
-              <span className="text-[#7DBE42]">Drive</span>
-              <span className="block text-gray-950 text-4xl lg:text-5xl mt-2 font-bold">
-                O transporte seguro do seu melhor amigo.
-              </span>
-            </h1>
-            
-            <p className="text-lg lg:text-xl text-gray-600 leading-relaxed max-w-xl">
-              Conecte-se com motoristas especializados e apaixonados por animais. Ofereça ou encontre caronas confortáveis para cães, gatos e outros pets com total segurança e custos divididos.
-            </p>
+        <img
+          src={homeImage}
+          alt=""
+          className="
+    absolute
+    inset-0
+    w-full
+    h-full
+    object-cover
+    object-bottom
+    opacity-25
+    pointer-events-none
+    select-none
+    z-0
+  "
+        />
 
-            <div className="flex flex-wrap gap-4">
-              {estaLogado ? (
-                <Link
-                  to="/dashboard"
-                  className="px-8 py-4 bg-gradient-to-r from-[#D63384] to-[#F39237] text-white rounded-full hover:opacity-95 shadow-lg shadow-[#D63384]/30 transition-all duration-300 font-bold tracking-wide transform hover:-translate-y-0.5 flex items-center gap-2"
-                >
-                  <LayoutDashboard className="w-5 h-5" />
-                  Acessar Painel de Caronas
-                </Link>
-              ) : (
-                <>
-                  <Link
-                    to="/login"
-                    className="px-8 py-4 bg-[#D63384] text-white rounded-full hover:bg-[#D63384]/90 shadow-lg shadow-[#D63384]/30 transition-all duration-300 font-bold tracking-wide transform hover:-translate-y-0.5"
-                  >
-                    Começar Agora
-                  </Link>
-                  <Link
-                    to="/login"
-                    className="px-8 py-4 bg-white text-gray-700 border-2 border-gray-200 rounded-full hover:border-[#7DBE42] hover:text-[#7DBE42] transition-all duration-300 font-bold tracking-wide"
-                  >
-                    Entrar
-                  </Link>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Lado Direito: Card Ajustado com Fusão de Cores */}
-          <div className="relative flex justify-center items-center">
-            <div className="relative w-full max-w-[450px] aspect-square bg-white rounded-[2.5rem] shadow-2xl p-6 flex flex-col justify-between overflow-hidden border border-gray-100">
-              
-              <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#FCE3B5]/40 to-white" />
-              <div className="absolute -bottom-10 -right-10 w-72 h-72 bg-gradient-to-tr from-[#00A896] via-[#7DBE42] to-[#F39237] rounded-full opacity-80 blur-sm transform rotate-45" />
-              <div className="absolute top-[-20%] left-[-10%] w-64 h-48 bg-[#D63384]/20 rounded-full filter blur-xl" />
-
-              {/* Topo do Card */}
-              <div className="flex justify-between items-center relative z-10">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#D63384] bg-[#D63384]/10 px-3 py-1 rounded-full">
-                  Veja em Tempo Real
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Conteúdo Esquerdo */}
+            <div className="space-y-8 relative z-10">
+              <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                <span className="text-[#D63384]">Pet</span>
+                <span className="text-[#7DBE42]">Drive</span>
+                <span className="block text-gray-950 text-4xl lg:text-5xl mt-2 font-bold">
+                  O transporte seguro do seu melhor amigo.
                 </span>
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 rounded-full bg-[#7DBE42]" />
-                  <div className="w-2 h-2 rounded-full bg-[#F39237]" />
-                  <div className="w-2 h-2 rounded-full bg-[#00A896]" />
-                </div>
+              </h1>
+
+              <p className="text-lg lg:text-xl text-gray-600 leading-relaxed max-w-xl">
+                Conecte-se com motoristas especializados e apaixonados por animais. Ofereça ou encontre caronas confortáveis para cães, gatos e outros pets com total segurança e custos divididos.
+              </p>
+
+              <div className="flex flex-wrap gap-4">
+                {estaLogado ? (
+                  <Link
+                    to="/dashboard"
+                    className="px-8 py-4 bg-gradient-to-r from-[#D63384] to-[#F39237] text-white rounded-full hover:opacity-95 shadow-lg shadow-[#D63384]/30 transition-all duration-300 font-bold tracking-wide transform hover:-translate-y-0.5 flex items-center gap-2"
+                  >
+                    <LayoutDashboard className="w-5 h-5" />
+                    Acessar Painel de Caronas
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="px-8 py-4 bg-[#D63384] text-white rounded-full hover:bg-[#D63384]/90 shadow-lg shadow-[#D63384]/30 transition-all duration-300 font-bold tracking-wide transform hover:-translate-y-0.5"
+                    >
+                      Começar Agora
+                    </Link>
+                    <Link
+                      to="/login"
+                      className="px-8 py-4 bg-white text-gray-700 border-2 border-gray-200 rounded-full hover:border-[#7DBE42] hover:text-[#7DBE42] transition-all duration-300 font-bold tracking-wide"
+                    >
+                      Entrar
+                    </Link>
+                  </>
+                )}
               </div>
+            </div>
 
-              {/* PAINEL DINÂMICO */}
-              <div className="my-auto relative z-10 rounded-2xl overflow-hidden border border-slate-200/60 shadow-inner bg-stone-100 flex flex-col justify-between h-80 p-4">
-                
-                {/* Seção do Gato */}
-                <div className="flex items-center justify-between bg-white/60 backdrop-blur-sm rounded-xl p-2 border border-white/80">
-                  <div className="pl-2">
-                    <span className="text-[10px] font-bold text-slate-400 block uppercase">Passageiro Felino</span>
-                    <span className="text-sm font-extrabold text-slate-700">Tom curtindo o rolê</span>
-                  </div>
-                  <div className="w-32 h-24 relative flex items-center justify-center overflow-hidden rounded-lg">
-                    <img 
-                      src={gatoGif} 
-                      alt="Gato caminhando"
-                      className="h-full w-auto object-contain animate-gato-estilo"
-                      style={{ mixBlendMode: 'multiply' }}
-                    />
-                  </div>
-                </div>
+            {/* Lado Direito: Card Ajustado com Fusão de Cores */}
+            <div className="relative flex justify-center items-center">
+              <div className="relative w-full max-w-[450px] aspect-square bg-white rounded-[2.5rem] shadow-2xl p-6 flex flex-col justify-between overflow-hidden border border-gray-100">
 
-                {/* Estrada Central */}
-                <div 
-                  className="w-full h-8 bg-[#7DBE42]/20 border-y-2 border-dashed border-[#7DBE42]/40 flex items-center justify-center animate-pista-rolante"
-                  style={{
-                    backgroundImage: 'radial-gradient(#7DBE42 15%, transparent 16%)',
-                    backgroundSize: '16px 16px'
-                  }}
-                >
-                  <span className="text-[9px] font-extrabold text-[#5fa329] tracking-widest uppercase bg-white/80 px-2 py-0.5 rounded-full shadow-sm">
-                    Em Trânsito Seguro
+                <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#FCE3B5]/40 to-white" />
+                <div className="absolute -bottom-10 -right-10 w-72 h-72 bg-gradient-to-tr from-[#00A896] via-[#7DBE42] to-[#F39237] rounded-full opacity-80 blur-sm transform rotate-45" />
+                <div className="absolute top-[-20%] left-[-10%] w-64 h-48 bg-[#D63384]/20 rounded-full filter blur-xl" />
+
+                {/* Topo do Card */}
+                <div className="flex justify-between items-center relative z-10">
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#D63384] bg-[#D63384]/10 px-3 py-1 rounded-full">
+                    Veja em Tempo Real
                   </span>
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 rounded-full bg-[#7DBE42]" />
+                    <div className="w-2 h-2 rounded-full bg-[#F39237]" />
+                    <div className="w-2 h-2 rounded-full bg-[#00A896]" />
+                  </div>
                 </div>
 
-                {/* Seção do Cachorro */}
-                <div className="flex items-center justify-between bg-white/60 backdrop-blur-sm rounded-xl p-2 border border-white/80">
-                  <div className="w-32 h-24 relative flex items-center justify-center overflow-hidden rounded-lg">
-                    <img 
-                      src={cachorroGif} 
-                      alt="Cachorro correndo"
-                      className="h-full w-auto object-contain transform animate-cao-trote"
-                      style={{ mixBlendMode: 'multiply' }}
-                    />
+                {/* PAINEL DINÂMICO */}
+                <div className="my-auto relative z-10 rounded-2xl overflow-hidden border border-slate-200/60 shadow-inner bg-stone-100 flex flex-col justify-between h-80 p-4">
+
+                  {/* Seção do Gato */}
+                  <div className="flex items-center justify-between bg-white/60 backdrop-blur-sm rounded-xl p-2 border border-white/80">
+                    <div className="pl-2">
+                      <span className="text-[10px] font-bold text-slate-400 block uppercase">Passageiro Felino</span>
+                      <span className="text-sm font-extrabold text-slate-700">Tom curtindo o rolê</span>
+                    </div>
+                    <div className="w-32 h-24 relative flex items-center justify-center overflow-hidden rounded-lg">
+                      <img
+                        src={gatoGif}
+                        alt="Gato caminhando"
+                        className="h-full w-auto object-contain animate-gato-estilo"
+                        style={{ mixBlendMode: 'multiply' }}
+                      />
+                    </div>
                   </div>
-                  <div className="text-right pr-2">
-                    <span className="text-[10px] font-bold text-slate-400 block uppercase">Motorista / Parceiro</span>
-                    <span className="text-sm font-extrabold text-slate-700">Thor a caminho!</span>
+
+                  {/* Estrada Central */}
+                  <div
+                    className="w-full h-8 bg-[#7DBE42]/20 border-y-2 border-dashed border-[#7DBE42]/40 flex items-center justify-center animate-pista-rolante"
+                    style={{
+                      backgroundImage: 'radial-gradient(#7DBE42 15%, transparent 16%)',
+                      backgroundSize: '16px 16px'
+                    }}
+                  >
+                    <span className="text-[9px] font-extrabold text-[#5fa329] tracking-widest uppercase bg-white/80 px-2 py-0.5 rounded-full shadow-sm">
+                      Em Trânsito Seguro
+                    </span>
                   </div>
+
+                  {/* Seção do Cachorro */}
+                  <div className="flex items-center justify-between bg-white/60 backdrop-blur-sm rounded-xl p-2 border border-white/80">
+                    <div className="w-32 h-24 relative flex items-center justify-center overflow-hidden rounded-lg">
+                      <img
+                        src={cachorroGif}
+                        alt="Cachorro correndo"
+                        className="h-full w-auto object-contain transform animate-cao-trote"
+                        style={{ mixBlendMode: 'multiply' }}
+                      />
+                    </div>
+                    <div className="text-right pr-2">
+                      <span className="text-[10px] font-bold text-slate-400 block uppercase">Motorista / Parceiro</span>
+                      <span className="text-sm font-extrabold text-slate-700">Thor a caminho!</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Base do Card */}
+                <div className="bg-white/80 backdrop-blur-md rounded-xl p-3 border border-gray-100 flex items-center justify-between relative z-10 shadow-sm">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-full bg-[#00A896] flex items-center justify-center text-white font-bold">
+                      <Car className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400 font-medium">Motoristas Ativos</p>
+                      <p className="text-sm font-bold text-gray-800">Prontos para embarcar</p>
+                    </div>
+                  </div>
+                  <span className="w-3 h-3 rounded-full bg-[#7DBE42] animate-ping" />
                 </div>
 
               </div>
-
-              {/* Base do Card */}
-              <div className="bg-white/80 backdrop-blur-md rounded-xl p-3 border border-gray-100 flex items-center justify-between relative z-10 shadow-sm">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-[#00A896] flex items-center justify-center text-white font-bold">
-                    <Car className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400 font-medium">Motoristas Ativos</p>
-                    <p className="text-sm font-bold text-gray-800">Prontos para embarcar</p>
-                  </div>
-                </div>
-                <span className="w-3 h-3 rounded-full bg-[#7DBE42] animate-ping" />
-              </div>
-
             </div>
           </div>
         </div>
@@ -231,7 +249,7 @@ export const Home: React.FC = () => {
       {!estaLogado && (
         <section className="relative overflow-hidden py-20 bg-gradient-to-r from-[#D63384] via-[#F39237] to-[#7DBE42]">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent pointer-events-none" />
-          
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <h2 className="text-4xl font-extrabold text-white mb-6 tracking-tight">
               Pronto para dar carona para essa fofura?

@@ -34,7 +34,7 @@ const RotaPublica: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 // Layout Base Estrutural para as Páginas (Menu e Rodapé)
 const LayoutBase: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-green-50 to-cyan-50">
+    <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       <main className="flex-1 flex flex-col w-full">
         {children}
