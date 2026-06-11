@@ -3,14 +3,20 @@ import { Link } from 'react-router-dom';
 import homeImage from '../assets/home.png';
 import dogAndCatImage from '../assets/dogandcat.png';
 import { useAuth } from '../contexts/AuthContext';
-import { LayoutDashboard, Car, Heart, ArrowRight } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Car,
+  Heart,
+  ArrowRight,
+  Shield,
+  Leaf,
+} from 'lucide-react';
 
 export const Home: React.FC = () => {
   const { estaLogado } = useAuth();
 
   return (
     <div className="min-h-screen bg-[#F8F6F2] font-sans overflow-x-hidden">
-
       <section className="relative min-h-[calc(100vh-72px)] overflow-hidden bg-[#F8F6F2] py-16 lg:py-20 flex items-center">
         <img
           src={homeImage}
@@ -137,6 +143,97 @@ export const Home: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* FEATURES SECTION */}
+      <section className="bg-white py-24 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
+              Por que escolher o{' '}
+              <span className="text-[#7DBE42]">PetDrive</span>?
+            </h2>
+            <p className="text-gray-500 mt-4 text-lg">
+              Criamos um ambiente focado no bem-estar dos animais de estimação e
+              na tranquilidade dos seus tutores.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 relative z-10">
+            <div className="p-8 bg-gradient-to-br from-[#7DBE42]/5 to-[#7DBE42]/10 rounded-2xl border border-[#7DBE42]/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <div className="w-14 h-14 bg-[#7DBE42]/20 rounded-xl flex items-center justify-center text-3xl mb-6 shadow-sm">
+                <Leaf className="w-7 h-7 text-[#7DBE42]" />
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Ambiente Pet-Friendly
+              </h3>
+
+              <p className="text-gray-600 leading-relaxed">
+                Todos os motoristas são avaliados e preparados para transportar
+                pets, garantindo caixas de transporte adequadas ou cintos de
+                segurança específicos.
+              </p>
+            </div>
+
+            <div className="p-8 bg-gradient-to-br from-[#F39237]/5 to-[#F39237]/10 rounded-2xl border border-[#F39237]/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <div className="w-14 h-14 bg-[#F39237]/20 rounded-xl flex items-center justify-center text-2xl mb-6 shadow-sm text-[#F39237] font-bold">
+                R$
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Divisão de Custos Justa
+              </h3>
+
+              <p className="text-gray-600 leading-relaxed">
+                Vai viajar para outra cidade e tem espaço no carro? Leve um
+                amiguinho e rache as despesas de combustível de forma simples e
+                transparente.
+              </p>
+            </div>
+
+            <div className="p-8 bg-gradient-to-br from-[#00A896]/5 to-[#00A896]/10 rounded-2xl border border-[#00A896]/10 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+              <div className="w-14 h-14 bg-[#00A896]/20 rounded-xl flex items-center justify-center text-3xl mb-6 shadow-sm">
+                <Shield className="w-7 h-7 text-[#00A896]" />
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
+                Segurança de Ponta a Ponta
+              </h3>
+
+              <p className="text-gray-600 leading-relaxed">
+                Perfis detalhados com histórico, fotos dos veículos e validação
+                de documentos para que você saiba exatamente com quem seu pet
+                está viajando.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA SECTION */}
+      {!estaLogado && (
+        <section className="relative overflow-hidden py-20 bg-gradient-to-r from-[#D63384] via-[#F39237] to-[#7DBE42]">
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 className="text-4xl font-extrabold text-white mb-6 tracking-tight">
+              Pronto para dar carona para essa fofura?
+            </h2>
+
+            <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto font-medium">
+              Cadastre-se agora na plataforma mais divertida e segura de
+              transporte pet do Brasil.
+            </p>
+
+            <Link
+              to="/login"
+              className="inline-block px-10 py-4 bg-white text-[#D63384] rounded-full hover:bg-gray-50 transition-all duration-300 font-extrabold tracking-wide shadow-xl transform hover:scale-105"
+            >
+              Criar Conta Gratuitamente
+            </Link>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
