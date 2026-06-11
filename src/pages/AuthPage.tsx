@@ -1,24 +1,27 @@
 import React, { useRef, useState } from 'react';
-import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-toastify';
-import { Camera, LogIn, Mail, Lock, User, Dog, Upload, UserPlus } from 'lucide-react';
+import {
+  Camera,
+  LogIn,
+  Mail,
+  Lock,
+  User,
+  Dog,
+  Upload,
+  UserPlus,
+} from 'lucide-react';
 import bgImage from '../assets/cachorro-janela.png';
 
 export const AuthPage: React.FC = () => {
   const contexto = useAuth() as any;
 
-  const executarLogin =
-    contexto.handleLogin || contexto.login;
+  const executarLogin = contexto.handleLogin || contexto.login;
 
   const executarCadastro =
     contexto.handleCadastrar ||
     contexto.cadastrar ||
     contexto.handleCadastro;
-
-  const executarLoginGoogle =
-    contexto.loginGoogle;
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -75,7 +78,7 @@ export const AuthPage: React.FC = () => {
           foto,
           nomePet,
           racaPet,
-          portePet
+          portePet,
         });
 
         toast.success('Cadastro realizado com sucesso! Faça o login.');
@@ -85,14 +88,13 @@ export const AuthPage: React.FC = () => {
       toast.error(
         isLogin
           ? 'E-mail ou senha incorretos.'
-          : 'Falha ao registrar usuário.'
+          : 'Falha ao registrar usuário.',
       );
     }
   };
 
   return (
     <div className="flex-1 relative overflow-hidden">
-
       <img
         src={bgImage}
         alt="PetDrive"
@@ -109,9 +111,7 @@ export const AuthPage: React.FC = () => {
       />
 
       <div className="relative z-10 flex items-center justify-center h-full p-4 sm:p-8">
-
         <div className="glass-card w-full max-w-2xl p-6 sm:p-8 rounded-3xl shadow-xl border border-white/40 backdrop-blur-md transition-all">
-
           <div className="text-center mb-6">
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight flex items-center justify-center gap-2">
               <span className="text-pet-rosa">Pet</span>
@@ -126,10 +126,8 @@ export const AuthPage: React.FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-
             {!isLogin && (
               <div className="grid grid-cols-1 md:grid-cols-[1fr_0.95fr] gap-4 items-stretch">
-
                 <div className="space-y-3">
                   <div className="relative">
                     <User className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
@@ -216,7 +214,6 @@ export const AuthPage: React.FC = () => {
                     Escolher foto
                   </button>
                 </div>
-
               </div>
             )}
 
@@ -250,7 +247,6 @@ export const AuthPage: React.FC = () => {
 
             {!isLogin && (
               <div className="p-4 bg-white/40 border border-slate-100 rounded-2xl mt-2 space-y-3">
-
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1">
                   <Dog className="w-4 h-4 text-pet-laranja" />
                   Identificação do Pet Titular
@@ -283,7 +279,6 @@ export const AuthPage: React.FC = () => {
                   <option value="MEDIO">Porte Médio</option>
                   <option value="GRANDE">Porte Grande</option>
                 </select>
-
               </div>
             )}
 
@@ -303,31 +298,6 @@ export const AuthPage: React.FC = () => {
                 </>
               )}
             </button>
-
-            {isLogin && (
-              <div className="mt-4 flex justify-center">
-                <GoogleLogin
-                  onSuccess={(credentialResponse) => {
-                    if (!credentialResponse.credential) return;
-
-                    const dadosUsuario: any = jwtDecode(
-                      credentialResponse.credential
-                    );
-
-                    executarLoginGoogle(dadosUsuario);
-
-                    toast.success(
-                      `Bem-vindo, ${dadosUsuario.name}!`
-                    );
-                  }}
-                  onError={() => {
-                    toast.error(
-                      'Erro ao realizar login com Google.'
-                    );
-                  }}
-                />
-              </div>
-            )}
           </form>
 
           <div className="mt-6 pt-6 border-t border-slate-200/40 text-center">
@@ -343,11 +313,8 @@ export const AuthPage: React.FC = () => {
               </button>
             </p>
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 };

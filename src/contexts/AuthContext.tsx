@@ -1,4 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from 'react';
 import { api } from '../services/api';
 
 export interface AuthContextType {
@@ -14,7 +19,7 @@ export interface AuthContextType {
   cadastrar: (dados: any) => Promise<void>;
   handleCadastrar: (dados: any) => Promise<void>;
 
-  loginGoogle: (dadosGoogle: any) => void;
+  loginGoogle: (dadosGoogle: any) => Promise<void>;
 
   logout: () => void;
   handleLogout: () => void;
@@ -22,15 +27,20 @@ export interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AuthProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   const [usuario, setUsuario] = useState<any>(null);
   const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    const tokenSalvo = localStorage.getItem('@PetDrive:token');
-    const usuarioSalvo = localStorage.getItem('@PetDrive:usuario');
+    const tokenSalvo = localStorage.getItem(
+      '@PetDrive:token'
+    );
+
+    const usuarioSalvo = localStorage.getItem(
+      '@PetDrive:usuario'
+    );
 
     if (tokenSalvo && usuarioSalvo) {
       try {
@@ -43,12 +53,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setCarregando(false);
   }, []);
 
-  const loginGlobal = async (email: string, senha: string) => {
+  const loginGlobal = async (
+    email: string,
+    senha: string
+  ) => {
+    console.log('LOGIN NOVO EXECUTOU');
+
     try {
-      const resposta = await api.post('/usuarios/logar', {
-        usuario: email,
-        senha,
-      });
+      const resposta = await api.post(
+        '/usuarios/logar',
+        {
+          usuario: email,
+          senha,
+        }
+      );
 
       const token =
         resposta.data.token ||
@@ -56,81 +74,106 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         resposta.data;
 
       const stringToken =
-        typeof token === 'string' ? token : token.token;
+        typeof token === 'string'
+          ? token
+          : token.token;
 
-      const tokenFormatado = stringToken.startsWith('Bearer ')
-        ? stringToken
-        : `Bearer ${stringToken}`;
+      const tokenFormatado =
+        stringToken.startsWith('Bearer ')
+          ? stringToken
+          : `Bearer ${stringToken}`;
 
       const dadosUsuario = {
         id: resposta.data.id || 1,
-        nome: resposta.data.nome || 'Usuário PetDrive',
+        nome:
+          resposta.data.nome ||
+          'Usuário PetDrive',
+
         usuario: email,
+
         foto: resposta.data.foto || '',
 
-        nomePet: resposta.data.nomePet || '',
-        raca: resposta.data.raca || '',
-        porte: resposta.data.porte || '',
+        nomePet:
+          resposta.data.nomePet || '',
+
+        raca:
+          resposta.data.raca || '',
+
+        porte:
+          resposta.data.porte || '',
       };
 
-      localStorage.setItem('@PetDrive:token', tokenFormatado);
+      localStorage.setItem(
+        '@PetDrive:token',
+        tokenFormatado
+      );
+
       localStorage.setItem(
         '@PetDrive:usuario',
-        JSON.stringify(dadosUsuario),
+        JSON.stringify(dadosUsuario)
       );
 
       setUsuario(dadosUsuario);
     } catch (erro) {
-      console.error('Erro no login:', erro);
+      console.error(
+        'Erro no login:',
+        erro
+      );
+
       throw erro;
     }
   };
 
-  const cadastrarGlobal = async (dados: any) => {
+  const cadastrarGlobal = async (
+    dados: any
+  ) => {
     await api.post('/usuarios', {
       nome: dados.nome,
       usuario: dados.email,
       senha: dados.senha,
       foto: dados.foto || '',
+
       nomePet: dados.nomePet,
       raca: dados.racaPet,
       porte: dados.portePet,
     });
   };
 
-  const loginGoogle = (dadosGoogle: any) => {
-    const usuarioSalvo = localStorage.getItem('@PetDrive:usuario');
+  const loginGoogle = async (
+    dadosGoogle: any
+  ) => {
+    const senhaGoogle = `Google@${
+      dadosGoogle.sub || dadosGoogle.email
+    }`;
 
-    const dadosAntigos = usuarioSalvo
-      ? JSON.parse(usuarioSalvo)
-      : {};
+    try {
+      await api.post('/usuarios', {
+        nome: dadosGoogle.name,
+        usuario: dadosGoogle.email,
+        senha: senhaGoogle,
+        foto: dadosGoogle.picture || '',
+        nomePet: '',
+        raca: '',
+        porte: '',
+      });
+    } catch {
+      console.log(
+        'Usuário Google já existe.'
+      );
+    }
 
-    const usuarioGoogle = {
-      id: dadosAntigos.id || Date.now(),
-
-      nome: dadosGoogle.name,
-      usuario: dadosGoogle.email,
-      foto: dadosGoogle.picture,
-
-      nomePet: dadosAntigos.nomePet || '',
-      raca: dadosAntigos.raca || '',
-      porte: dadosAntigos.porte || '',
-    };
-
-    localStorage.setItem(
-      '@PetDrive:usuario',
-      JSON.stringify(usuarioGoogle),
+    await loginGlobal(
+      dadosGoogle.email,
+      senhaGoogle
     );
-
-    localStorage.setItem('@PetDrive:token', 'google-login');
-
-    setUsuario(usuarioGoogle);
   };
 
-  const atualizarUsuario = (novoUsuario: any) => {
+  const atualizarUsuario = (
+    novoUsuario: any
+  ) => {
     localStorage.setItem(
       '@PetDrive:usuario',
-      JSON.stringify(novoUsuario),
+      JSON.stringify(novoUsuario)
     );
 
     setUsuario(novoUsuario);
@@ -168,11 +211,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context =
+    useContext(AuthContext);
 
   if (!context) {
     throw new Error(
-      'useAuth deve ser usado dentro de um AuthProvider',
+      'useAuth deve ser usado dentro de um AuthProvider'
     );
   }
 
