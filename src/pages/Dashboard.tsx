@@ -26,12 +26,20 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { usuario } = useAuth();
 
+  const [corridasRealizadas] = useState(5);
+  const [corridasEmAndamento, setCorridasEmAndamento] = useState(0);
+  const [corridasCanceladas, setCorridasCanceladas] = useState(0);
+
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [viagens, setViagens] = useState<Viagem[]>([]);
 
   const [novaDescricaoCat, setNovaDescricaoCat] = useState('');
   const [catEditId, setCatEditId] = useState<number | null>(null);
 
+  const [cepOrigem, setCepOrigem] = useState('');
+  const [cepDestino, setCepDestino] = useState('');
+  const [numeroOrigem, setNumeroOrigem] = useState('');
+  const [numeroDestino, setNumeroDestino] = useState('');
   const [origem, setOrigem] = useState('');
   const [destino, setDestino] = useState('');
   const [dataViagem, setDataViagem] = useState('');
@@ -41,7 +49,144 @@ export const Dashboard: React.FC = () => {
   const [categoriaId, setCategoriaId] = useState('');
   const [viagemEditId, setViagemEditId] = useState<number | null>(null);
 
-  const [modalConfirmacao, setModalConfirmacao] = useState<{
+  const buscarEndereco = async (cep: string) => {
+    const cepLimpo = cep.replace(/\D/g, '');
+
+    if (cepLimpo.length !== 8) return null;
+
+    try {
+      const resposta = await fetch(
+        `https://viacep.com.br/ws/${cepLimpo}/json/`
+      );
+
+      const dados = await resposta.json();
+
+      if (dados.erro) return null;
+
+      return dados;
+    } catch {
+      return null;
+    }
+  };
+
+  const buscarCoordenadas = async (cep: string, numero: string) => {
+    const endereco = await buscarEndereco(cep);
+
+    if (!endereco) return null;
+
+    const enderecoCompleto = `${endereco.logradouro}, ${numero}, ${endereco.localidade}, ${endereco.uf}`;
+
+    const resposta = await fetch(
+      `https://api.openrouteservice.org/geocode/search?api_key=${
+        import.meta.env.VITE_ORS_API_KEY
+      }&text=${encodeURIComponent(enderecoCompleto)}`
+    );
+
+    const dados = await resposta.json();
+
+    if (!dados.features?.length) return null;
+
+    return dados.features[0].geometry.coordinates;
+  };
+
+  const preencherOrigemPorCep = async (cep: string, numero: string) => {
+    const endereco = await buscarEndereco(cep);
+
+    if (!endereco) return;
+
+    setOrigem(
+      `${endereco.logradouro}, nº ${numero} - ${endereco.bairro}, ${endereco.localidade}/${endereco.uf}`
+    );
+  };
+
+  useEffect(() => {
+    if (cepOrigem && numeroOrigem) {
+      preencherOrigemPorCep(cepOrigem, numeroOrigem);
+    }
+  }, [numeroOrigem]);
+
+  const preencherDestinoPorCep = async (cep: string, numero: string) => {
+    const endereco = await buscarEndereco(cep);
+
+    if (!endereco) return;
+
+    setDestino(
+      `${endereco.logradouro}, nº ${numero} - ${endereco.bairro}, ${endereco.localidade}/${endereco.uf}`
+    );
+  };
+
+  useEffect(() => {
+    if (cepDestino && numeroDestino) {
+      preencherDestinoPorCep(cepDestino, numeroDestino);
+    }
+  }, [numeroDestino]);
+
+  const calcularRota = async (
+    cepOrigem: string,
+    cepDestino: string
+  ) => {
+    try {
+      const origemCoords = await buscarCoordenadas(cepOrigem, numeroOrigem);
+      const destinoCoords = await buscarCoordenadas(cepDestino, numeroDestino);
+
+      if (!origemCoords || !destinoCoords) {
+        toast.error('Não foi possível localizar os CEPs');
+        return;
+      }
+
+      const resposta = await fetch(
+        'https://api.openrouteservice.org/v2/directions/driving-car',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: import.meta.env.VITE_ORS_API_KEY,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            coordinates: [
+              origemCoords,
+              destinoCoords,
+            ],
+          }),
+        }
+      );
+
+      const dados = await resposta.json();
+
+      const distancia =
+        dados.routes[0].summary.distance / 1000;
+
+      const duracaoHoras =
+        dados.routes[0].summary.duration / 3600;
+
+      const velocidade =
+        distancia / duracaoHoras;
+
+      setDistanciaKm(distancia.toFixed(2));
+
+      setVelocidadeMediaKmh(
+        velocidade.toFixed(2)
+      );
+    } catch {
+      toast.error('Erro ao calcular rota');
+    }
+  };
+
+  useEffect(() => {
+    const cepValido = (cep: string) =>
+      cep.replace(/\D/g, '').length === 8;
+
+    if (
+      cepValido(cepOrigem) &&
+      cepValido(cepDestino) &&
+      numeroOrigem &&
+      numeroDestino
+    ) {
+      calcularRota(cepOrigem, cepDestino);
+    }
+  }, [cepOrigem, cepDestino, numeroOrigem, numeroDestino,]);
+
+const [modalConfirmacao, setModalConfirmacao] = useState<{
     aberto: boolean;
     tipo: 'categoria' | 'viagem' | null;
     id: number | null;
@@ -101,6 +246,10 @@ export const Dashboard: React.FC = () => {
   }, []);
 
   const limparFormularioViagem = () => {
+    setCepOrigem('');
+    setCepDestino('');
+    setNumeroOrigem('');
+    setNumeroDestino('');
     setOrigem('');
     setDestino('');
     setDataViagem('');
@@ -215,6 +364,8 @@ export const Dashboard: React.FC = () => {
           ...listaAtual,
         ] as Viagem[]);
 
+        setCorridasEmAndamento(1);
+
         toast.success('Corrida publicada!');
       }
 
@@ -233,6 +384,10 @@ export const Dashboard: React.FC = () => {
   const confirmarDeletarViagem = async (id: number) => {
     try {
       await api.delete(`/viagens/${id}`);
+
+      setCorridasEmAndamento(0);
+      setCorridasCanceladas(1);
+
       toast.success('Corrida removida.');
       carregarDados();
     } catch {
@@ -347,40 +502,34 @@ export const Dashboard: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="px-4 py-3 rounded-2xl bg-pink-50 border border-pink-100">
-                <p className="text-[10px] uppercase font-black text-[#D63384]">
-                  Corridas
-                </p>
-                <p className="text-xl font-black text-slate-800">
-                  {viagens.length}
-                </p>
-              </div>
-
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="px-4 py-3 rounded-2xl bg-green-50 border border-green-100">
                 <p className="text-[10px] uppercase font-black text-[#7DBE42]">
-                  Categorias
+                  Corridas Realizadas
                 </p>
+
                 <p className="text-xl font-black text-slate-800">
-                  {categorias.length}
+                  {corridasRealizadas}
                 </p>
               </div>
 
-              <div className="px-4 py-3 rounded-2xl bg-blue-50 border border-blue-100">
-                <p className="text-[10px] uppercase font-black text-[#4A90E2]">
-                  Tempo
+              <div className="px-4 py-3 rounded-2xl bg-yellow-100 border border-yellow-100">
+                <p className="text-[10px] uppercase font-black text-yellow-600">
+                  Corridas em Andamento
                 </p>
+
                 <p className="text-xl font-black text-slate-800">
-                  {resultadoTempo || 'Auto'}
+                  {corridasEmAndamento}
                 </p>
               </div>
 
-              <div className="px-4 py-3 rounded-2xl bg-orange-50 border border-orange-100">
-                <p className="text-[10px] uppercase font-black text-[#F39237]">
-                  Preço
+              <div className="px-4 py-3 rounded-2xl bg-pink-50 border border-pink-100">
+                <p className="text-[10px] uppercase font-black text-[#D63384]">
+                  Corridas Canceladas
                 </p>
+
                 <p className="text-xl font-black text-slate-800">
-                  {valor ? `R$ ${valor}` : 'Auto'}
+                  {corridasCanceladas}
                 </p>
               </div>
             </div>
@@ -517,21 +666,47 @@ export const Dashboard: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input
                 type="text"
-                placeholder="Cidade Origem"
-                value={origem}
-                onChange={(e) => setOrigem(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:ring-2 focus:ring-[#D63384] outline-none"
-                required
+                placeholder="CEP Origem"
+                value={cepOrigem}
+                onChange={(e) => setCepOrigem(e.target.value)}
+                onBlur={() => preencherOrigemPorCep(cepOrigem, numeroOrigem)}
+                className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm"
               />
 
               <input
                 type="text"
-                placeholder="Cidade Destino"
-                value={destino}
-                onChange={(e) => setDestino(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:ring-2 focus:ring-[#D63384] outline-none"
-                required
+                placeholder="Número da Origem"
+                value={numeroOrigem}
+                onChange={(e) => setNumeroOrigem(e.target.value)}
+                className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm"
               />
+
+              <input
+                type="text"
+                placeholder="CEP Destino"
+                value={cepDestino}
+                onChange={(e) => setCepDestino(e.target.value)}
+                onBlur={() => preencherDestinoPorCep(cepDestino, numeroDestino)}
+                className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm"
+              />
+
+              <input
+                type="text"
+                placeholder="Número do Destino"
+                value={numeroDestino}
+                onChange={(e) => setNumeroDestino(e.target.value)}
+                className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm"
+              />
+
+             <div className="p-3 rounded-xl bg-slate-100 border text-sm">
+              <strong>Origem:</strong>{' '}
+              {origem || 'Aguardando CEP'}
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-100 border text-sm">
+              <strong>Destino:</strong>{' '}
+              {destino || 'Aguardando CEP'}
+            </div>
 
               <input
                 type="date"
@@ -541,23 +716,21 @@ export const Dashboard: React.FC = () => {
                 required
               />
 
-              <input
-                type="number"
-                placeholder="Distância Total (Km)"
-                value={distanciaKm}
-                onChange={(e) => setDistanciaKm(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:ring-2 focus:ring-[#D63384] outline-none"
-                required
-              />
+              <div className="p-3 rounded-2xl bg-slate-100 border text-sm">
+                <span className="font-black">
+                  Distância:
+                </span>{' '}
+                {distanciaKm ? `${distanciaKm} km` : 'Calculando...'}
+              </div>
 
-              <input
-                type="number"
-                placeholder="Velocidade Média (Km/h)"
-                value={velocidadeMediaKmh}
-                onChange={(e) => setVelocidadeMediaKmh(e.target.value)}
-                className="w-full p-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:ring-2 focus:ring-[#D63384] outline-none"
-                required
-              />
+              <div className="p-3 rounded-2xl bg-slate-100 border text-sm">
+                <span className="font-black">
+                  Velocidade média:
+                </span>{' '}
+                {velocidadeMediaKmh
+                  ? `${velocidadeMediaKmh} km/h`
+                  : 'Calculando...'}
+              </div>
 
               <div className="p-3 rounded-2xl bg-blue-50 border border-blue-100 text-sm">
                 <span className="font-black text-[#4A90E2]">
@@ -633,7 +806,7 @@ export const Dashboard: React.FC = () => {
 
                   <p className="flex items-center gap-1.5 text-xs text-slate-500">
                     <Calendar className="w-3.5 h-3.5" />
-                    {String(v.dataViagem)}
+                    {new Date(v.dataViagem).toLocaleDateString('pt-BR')}
                   </p>
 
                   <p className="flex items-center gap-1.5 text-xs text-slate-500">
@@ -646,9 +819,9 @@ export const Dashboard: React.FC = () => {
                 </div>
 
                 <div className="text-xs text-slate-400 border-t border-slate-100 pt-2 mt-2">
-                  Ofertado por:{' '}
+                  Corrida solicitada por:{' '}
                   <span className="font-semibold text-slate-600">
-                    {v.usuario?.nome || 'Motorista'}
+                    {v.usuario?.nome || 'Usuário'}
                   </span>
                 </div>
               </div>

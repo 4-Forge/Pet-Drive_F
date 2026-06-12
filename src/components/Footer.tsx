@@ -1,5 +1,6 @@
 import React from 'react';
 import footerImage from '../assets/footer.png';
+import { Linkedin } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -32,6 +33,51 @@ export const Footer: React.FC = () => {
             PetDrive
           </span>{' '}
           — Caronas Compartilhadas para Pets. Desenvolvido pela Forge 4.
+        </div>
+      </div>
+
+      {/* Links para o LinkedIn */}
+      <div className="mt-2 flex flex-col items-center gap-2">
+        <p className="text-xs font-bold text-slate-500">
+          🚗 Conecte-se com os desenvolvedores:
+        </p>
+
+        <div className="flex items-center gap-8">
+          <a
+            href="https://www.linkedin.com/in/eduarda-aleixo/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center text-[#D63384] hover:text-[#4A90E2] hover:scale-110 transition-all"
+          >
+            <Linkedin size={22} />
+            <span className="text-xs mt-1 font-semibold text-slate-600">
+              Eduarda Aleixo
+            </span>
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/lais-b-sousa"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center text-[#0077B5] hover:scale-110 transition-transform"
+          >
+            <Linkedin size={22} />
+            <span className="text-xs mt-1 font-semibold text-slate-600">
+              Lais Sousa
+            </span>
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/jean-pedro03/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center text-[#7DBE42] hover:text-[#4A90E2] hover:scale-110 transition-all"
+          >
+            <Linkedin size={22} />
+            <span className="text-xs mt-1 font-semibold text-slate-600">
+              Jean Pedro
+            </span>
+          </a>
         </div>
       </div>
 
