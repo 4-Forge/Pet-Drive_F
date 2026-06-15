@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import homeImage from '../assets/home.png';
-import dogAndCatImage from '../assets/dogandcat.png';
+import dogAndCatGif from '../assets/dogandcat.gif';
 import { useAuth } from '../contexts/AuthContext';
 import {
   LayoutDashboard,
@@ -12,11 +12,25 @@ import {
   Leaf,
 } from 'lucide-react';
 
+const sealClipPath =
+  'polygon(50% 0%,55% 4%,61% 1%,66% 5%,72% 3%,77% 8%,83% 8%,87% 14%,93% 17%,94% 24%,99% 29%,96% 36%,100% 42%,97% 50%,100% 58%,96% 64%,99% 71%,94% 76%,93% 83%,87% 86%,83% 92%,77% 92%,72% 97%,66% 95%,61% 99%,55% 96%,50% 100%,45% 96%,39% 99%,34% 95%,28% 97%,23% 92%,17% 92%,13% 86%,7% 83%,6% 76%,1% 71%,4% 64%,0% 58%,3% 50%,0% 42%,4% 36%,1% 29%,6% 24%,7% 17%,13% 14%,17% 8%,23% 8%,28% 3%,34% 5%,39% 1%,45% 4%)';
+
 export const Home: React.FC = () => {
   const { estaLogado } = useAuth();
 
   return (
     <div className="min-h-screen bg-[#F8F6F2] font-sans overflow-x-hidden">
+      <style>{`
+        @keyframes softPulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.012); }
+        }
+
+        .pet-seal {
+          animation: softPulse 4s ease-in-out infinite;
+        }
+      `}</style>
+
       <section className="relative min-h-[calc(100vh-72px)] overflow-hidden bg-[#F8F6F2] py-16 lg:py-20 flex items-center">
         <img
           src={homeImage}
@@ -79,55 +93,59 @@ export const Home: React.FC = () => {
             </div>
 
             <div className="relative flex justify-center items-center">
-              <div className="relative w-full max-w-[500px] aspect-[0.92] bg-white/90 rounded-[2.75rem] shadow-2xl p-7 flex flex-col justify-between overflow-hidden border border-white/80">
+              <div className="relative w-full max-w-[460px] min-h-[590px] bg-white/95 rounded-[2.75rem] shadow-2xl p-7 flex flex-col justify-between overflow-hidden border border-white/90">
                 <div className="absolute inset-0 bg-gradient-to-br from-white via-[#FFF7EE] to-[#EEF9E8]" />
                 <div className="absolute -bottom-24 -right-20 w-96 h-96 bg-gradient-to-tr from-[#00A896]/45 via-[#7DBE42]/35 to-[#F39237]/35 rounded-full blur-2xl" />
                 <div className="absolute -top-24 -left-20 w-80 h-80 bg-[#D63384]/12 rounded-full blur-2xl" />
 
-                <div className="relative z-10 flex items-center justify-between">
-                  <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-[#D63384] bg-[#D63384]/10 px-4 py-2 rounded-full">
+                <div className="relative z-10 flex items-center justify-between gap-4">
+                  <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-[#D63384] bg-[#D63384]/10 px-5 py-3 rounded-full">
                     Cuidado em cada rota
                   </span>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 shrink-0">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#D63384]" />
                     <span className="w-2.5 h-2.5 rounded-full bg-[#7DBE42]" />
                     <span className="w-2.5 h-2.5 rounded-full bg-[#F39237]" />
                   </div>
                 </div>
 
-                <div className="relative z-10 flex-1 flex items-center justify-center py-7">
-                  <div className="relative w-full aspect-square rounded-full bg-gradient-to-br from-[#FFF2DE] via-white to-[#EAF8E3] border border-white/90 shadow-inner flex items-center justify-center overflow-hidden">
-                    <div className="absolute inset-5 rounded-full border border-white/80" />
-
-                    <span className="absolute left-8 top-24 text-[#D63384]/35 text-4xl">
+                <div className="relative z-10 flex-1 flex items-center justify-center py-8">
+                  <div
+                    className="pet-seal relative w-full aspect-square bg-gradient-to-br from-[#FFF2DE] via-white to-[#EAF8E3] border-2 border-white/90 shadow-inner flex items-center justify-center overflow-hidden"
+                    style={{ clipPath: sealClipPath }}
+                  >
+                    <span className="absolute left-8 top-24 text-[#D63384]/35 text-5xl">
                       ♡
                     </span>
 
-                    <span className="absolute right-10 top-32 text-[#7DBE42]/50 text-4xl">
+                    <span className="absolute right-10 top-28 text-[#7DBE42]/55 text-5xl">
                       ˎˊ˗
                     </span>
 
-                    <span className="absolute right-10 bottom-24 text-[#D63384]/35 text-4xl">
+                    <span className="absolute right-10 bottom-24 text-[#D63384]/35 text-5xl">
                       ♡
                     </span>
 
                     <img
-                      src={dogAndCatImage}
+                      src={dogAndCatGif}
                       alt="Cachorro e gato juntos"
-                      className="relative z-10 w-full h-full object-contain"
+                      className="relative z-10 w-full h-full object-cover"
+                      style={{
+                        objectPosition: '72% 38%',
+                      }}
                     />
                   </div>
                 </div>
 
-                <div className="relative z-10 bg-white/85 backdrop-blur-md rounded-2xl p-4 border border-white/80 flex items-center justify-between shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-[#00A896] flex items-center justify-center text-white">
-                      <Car className="w-6 h-6" />
+                <div className="relative z-10 bg-white/90 backdrop-blur-md rounded-3xl p-5 border border-white/90 flex items-center justify-between shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-full bg-[#00A896] flex items-center justify-center text-white">
+                      <Car className="w-7 h-7" />
                     </div>
 
                     <div>
-                      <p className="text-base font-black text-slate-800">
+                      <p className="text-xl font-black text-slate-800">
                         PetDrive
                       </p>
                       <p className="text-sm text-slate-500 font-medium">
@@ -136,7 +154,7 @@ export const Home: React.FC = () => {
                     </div>
                   </div>
 
-                  <Heart className="w-8 h-8 text-[#D63384]" />
+                  <Heart className="w-10 h-10 text-[#D63384]" />
                 </div>
               </div>
             </div>

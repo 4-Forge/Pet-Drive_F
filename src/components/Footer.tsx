@@ -56,18 +56,6 @@ export const Footer: React.FC = () => {
           </a>
 
           <a
-            href="https://www.linkedin.com/in/lais-b-sousa"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col items-center text-[#0077B5] hover:scale-110 transition-transform"
-          >
-            <Linkedin size={22} />
-            <span className="text-xs mt-1 font-semibold text-slate-600">
-              Lais Sousa
-            </span>
-          </a>
-
-          <a
             href="https://www.linkedin.com/in/jean-pedro03/"
             target="_blank"
             rel="noopener noreferrer"
@@ -76,6 +64,18 @@ export const Footer: React.FC = () => {
             <Linkedin size={22} />
             <span className="text-xs mt-1 font-semibold text-slate-600">
               Jean Pedro
+            </span>
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/lais-b-sousa"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center text-[#FFA500] hover:text-[#4A90E2] hover:scale-110 transition-transform"
+          >
+            <Linkedin size={22} />
+            <span className="text-xs mt-1 font-semibold text-slate-600">
+              Lais Sousa
             </span>
           </a>
         </div>
